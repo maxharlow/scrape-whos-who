@@ -4,12 +4,13 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-for i in range(1, 40178, 20):
+total = 40178 # total number of entries
+for i in range(1, total, 20):
     print('Scraping records beginning ' + str(i))
     data = []
     request = requests.get('http://www.ukwhoswho.com/browse/people/paginate/' + str(i))
-    soup = BeautifulSoup(request.text)
-    results = soup.find(id = 'content').find('ul').find_all('li')
+    page = BeautifulSoup(request.text)
+    results = page.find(id = 'content').find('ul').find_all('li')
     for result in results:
         uri = result.h3.a.get('href')
         identifier = re.search('whoswho/(.*?)/', uri).group(1)
