@@ -14,7 +14,7 @@ for i in range(1, 40178, 20):
         uri = result.h3.a.get('href')
         identifier = re.search('whoswho/(.*?)/', uri).group(1)
         name = result.h3.a.get_text(strip=True)
-        life = "".join([x.get_text() if not isinstance(x, str) else x for x in result.h3.a.next_siblings]).strip()
+        life = "".join([x if isinstance(x, str) else x.get_text() for x in result.h3.a.next_siblings]).strip()
         bio = result.find('span', class_='occ').string
         entry = {'id': identifier, 'name': name, 'life': life, 'bio': bio}
         data.append(entry)
