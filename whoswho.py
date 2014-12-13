@@ -13,7 +13,7 @@ for i in range(1, total, 20):
     results = page.find(id = 'content').find('ul').find_all('li')
     for result in results:
         uri = result.h3.a.get('href')
-        identifier = re.search('whoswho/(.*?)/', uri).group(1)
+        identifier = re.search('who/(.*?)/', uri).group(1)
         name = result.h3.a.get_text(strip=True)
         life = "".join([x if isinstance(x, str) else x.get_text() for x in result.h3.a.next_siblings]).strip()
         bio = result.find('span', class_='occ').string
