@@ -4,7 +4,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-total = 40178 # total number of entries
+total = 40339 # total number of entries
 for i in range(1, total, 20):
     print('Scraping records beginning ' + str(i))
     data = []
