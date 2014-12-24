@@ -5,4 +5,4 @@ Scrape Who's Who
 
 Requires either version 2 or 3 of [Python] (https://www.python.org/), including `virtualenv` and `pip`.
 
-Set up a virtual environment with `virtualenv venv --no-site-packages` followed by `source venv/bin/activate`. Install the dependencies with `pip install -r requirements.txt`, then run `python whos-who`.
+Set up a virtual environment with `virtualenv venv --no-site-packages` followed by `source venv/bin/activate`. Install the dependencies with `pip install -r requirements.txt`, then run `python whos-who.py`.
