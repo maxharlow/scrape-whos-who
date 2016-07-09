@@ -1,8 +1,10 @@
 Scrape Who's Who
 ================
 
-[Who's Who] (http://www.ukwhoswho.com/) publish 'the essential directory of the noteworthy and influential in every area of public life'. To access, you need to either subscribe yourself, or access it from a library or other institution that does. This scrapes those records into a CSV.
+[Who's Who] (http://www.ukwhoswho.com/) publish 'the essential directory of the noteworthy and influential in every area of public life'. This scrapes each into a CSV.
 
-Requires either version 2 or 3 of [Python] (https://www.python.org/), including `virtualenv` and `pip`.
+Requires [Node] (http://nodejs.org/).
 
-Set up a virtual environment with `virtualenv venv --no-site-packages` followed by `source venv/bin/activate`. Install the dependencies with `pip install -r requirements.txt`, then run `python whos-who.py`.
+Expects a configuration file named `config.json`, where a library card number is given, as shown in `config.example.json`. The library card number is used to log in to Who's Who before scraping begins. If you have institutional access, which means access is granted by IP range and there's no need to log in, then this field can be left blank.
+
+Install the dependencies with `npm install`, then run `node whos-who`.
