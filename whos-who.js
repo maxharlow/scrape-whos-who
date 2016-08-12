@@ -69,34 +69,16 @@ function listings(response) {
         if (seeOther) return null // don't bother with duplicates
         const uri = location + row('h3 a:first-of-type').attr('href').split('?')[0]
         return {
-            // uri,
-            // last: {
             location: uri,
-            name: row('h3 a').text().trim(),
+            name: row('h3 a').text().trim().replace(/\s+/g, ' '),
             dates: row('.bdate').text().trim(),
-            bio: row('.occ').text().trim()
-            // }
+            bio: row('.occ').text().trim().replace(/\s+/g, ' ')
         }
     })
     return rows.filter(row => row !== null)
 }
-
-/* The rate limit for library card holders is too small to do this in any reasonable amount of time */
-// function person(response) {
-//     console.log('  Retrieving person: ' + response.request.href)
-//     const document = Cheerio.load(response.body)
-//     return {
-//         location: response.request.last.location,
-//         name: response.request.last.name,
-//         namePeer: document('.peername').text().trim().replace(/\s(\s+)/, ' '),
-//         dates: response.request.last.dates,
-//         bio: response.request.last.bio,
-//         life: document('.life').text().trim()
-//     }
-// }
-
-const headers = ['location', 'name', 'namePeer', 'dates', 'bio', 'life']
-FS.closeSync(FS.openSync(filename, 'a')) // make sure it exists so it can be read
+const headers = ['location', 'name', 'dates', 'bio']
+if (!FS.existsSync(filename)) FS.writeFileSync(filename, headers.join(',') + '\n') // nasty
 CSVParser(FS.readFileSync(filename), { headers }).then(existing => {
     const existingLocations = existing.map(row => row.location)
     Highland([login])
@@ -106,9 +88,7 @@ CSVParser(FS.readFileSync(filename), { headers }).then(existing => {
         .flatMap(paginate)
         .flatMap(http)
         .flatMap(listings)
-        // .filter(request => existingLocations.indexOf(request.last.location) < 0)
-        // .flatMap(http)
-        // .map(person)
+        .filter(request => existingLocations.indexOf(request.location) < 0)
         .errors(e => console.error(e.stack))
         .through(CSVWriter({ sendHeaders: false }))
         .pipe(FS.createWriteStream(filename, { flags: 'a' }))
